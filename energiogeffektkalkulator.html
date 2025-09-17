@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<title>Energi- og Effektkalkulator</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 10px; }
+  label { display:block; margin-top:8px; }
+  input { width:80px; margin-left:5px; }
+  button { margin-top:10px; padding:5px 12px; cursor:pointer; }
+  table { margin-top:15px; border-collapse: collapse; }
+  th, td { border:1px solid #ccc; padding:6px 10px; text-align:center; }
+  th { background:#f0f0f0; }
+</style>
+</head>
+<body>
+<h3>Energi- og Effektkalkulator</h3>
+<label>Tunnel (km): <input type="number" id="tunnel" value="0" step="0.1"></label>
+<label>Vei i dagen (km): <input type="number" id="vei" value="0" step="0.1"></label>
+<label>Kryss: <input type="number" id="kryss" value="0" step="1"></label>
+
+<button onclick="beregn()">Beregn</button>
+
+<table id="resultat" style="display:none;">
+<tr><th>Total lengde (km)</th><th>Energibehov (MWh)</th><th>Effektbehov (MW)</th></tr>
+<tr><td id="totallengde"></td><td id="energi"></td><td id="effekt"></td></tr>
+</table>
+
+<script>
+function beregn(){
+  let tunnel = parseFloat(document.getElementById("tunnel").value) || 0;
+  let vei = parseFloat(document.getElementById("vei").value) || 0;
+  let kryss = parseInt(document.getElementById("kryss").value) || 0;
+
+  const effektTunnel = 2.5; // MW/km
+  const energiTunnel = 15;  // MWh/km
+  const effektVei = 0.8;    // MW/km
+  const energiVei = 5;      // MWh/km
+  const effektKryss = 0.5;  // MW
+  const energiKryss = 1;    // MWh
+
+  const totallengde = tunnel + vei;
+  const effekt = (tunnel * effektTunnel) + (vei * effektVei) + (kryss * effektKryss);
+  const energi = (tunnel * energiTunnel) + (vei * energiVei) + (kryss * energiKryss);
+
+  document.getElementById("totallengde").innerText = totallengde.toFixed(1);
+  document.getElementById("energi").innerText = energi.toFixed(1);
+  document.getElementById("effekt").innerText = effekt.toFixed(1);
+  document.getElementById("resultat").style.display = "table";
+}
+</script>
+</body>
+</html>
